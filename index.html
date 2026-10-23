@@ -13,28 +13,28 @@ function state(){const a=Math.max(0,Math.min(300,Number($('adults').value)||0)),
 function round5(v){return Math.round(v*20)/20}
 function build(){const {a,k,e,eq,f}=state(),m=round5(eq*.225*f),each=round5(m/3),veg=round5(eq*.115*f),sea=round5(eq*.05*f),starch=round5(eq*.07*f),fruit=round5(eq*.09),liq=Math.ceil(e*.6),bread=Math.ceil(eq*.6*f),shrimp=Math.ceil(e*f),sausage=Math.ceil(eq*.5*f);
 const data=[
-['A','牛肉（牛五花／燒肉片）',fmt(each,2)+' kg（'+fmt(each/.6,2)+' 臺斤）','牛：豬：雞各約三分之一'],
-['A','豬肉（梅花／五花）',fmt(each,2)+' kg（'+fmt(each/.6,2)+' 臺斤）','不與香腸重複計算'],
-['A','雞肉（去骨雞腿排）',fmt(each,2)+' kg（'+fmt(each/.6,2)+' 臺斤）','建議優先選去骨；帶骨要加重'],
+['A','牛肉（牛五花／燒肉片）',fmt(each/.6,2)+' 臺斤','牛：豬：雞各約三分之一'],
+['A','豬肉（梅花／五花）',fmt(each/.6,2)+' 臺斤','不與香腸重複計算'],
+['A','雞肉（去骨雞腿排）',fmt(each/.6,2)+' 臺斤','建議優先選去骨；帶骨要加重'],
 ['A','香腸',sausage+' 條','依大小與喜好調整'],
 ['B','白蝦',shrimp+' 隻','每位實際參加者約 1 隻'],
-['B','其他海鮮（魚片、花枝、蛤蜊）',fmt(sea,2)+' kg','挑選 1～2 種即可'],
-['B','杏鮑菇',fmt(veg*.30,2)+' kg','菇類份量之一'],
-['B','香菇',fmt(veg*.15,2)+' kg','菇類份量之一'],
-['B','玉米筍',fmt(veg*.20,2)+' kg','蔬菜份量之一'],
-['B','青椒與洋蔥',fmt(veg*.35,2)+' kg','可切塊串烤'],
+['B','其他海鮮（魚片、花枝、蛤蜊）',fmt(sea/.6,2)+' 臺斤','挑選 1～2 種即可'],
+['B','杏鮑菇',fmt(veg*.30/.6,2)+' 臺斤','菇類份量之一'],
+['B','香菇',fmt(veg*.15/.6,2)+' 臺斤','菇類份量之一'],
+['B','玉米筍',fmt(veg*.20/.6,2)+' 臺斤','蔬菜份量之一'],
+['B','青椒與洋蔥',fmt(veg*.35/.6,2)+' 臺斤','可切塊串烤'],
 ['B','玉米',Math.ceil(eq*.18)+' 根','切成段；若增加玉米可減少 C 組主食'],
 ['C','吐司',bread+' 片','可用來夾肉與香腸'],
-['C','甜不辣',fmt(starch*.55,2)+' kg','主食配料'],
-['C','豬血糕',fmt(starch*.45,2)+' kg','主食配料'],
+['C','甜不辣',fmt(starch*.55/.6,2)+' 臺斤','主食配料'],
+['C','豬血糕',fmt(starch*.45/.6,2)+' 臺斤','主食配料'],
 ['C','棉花糖',Math.ceil(e*1.3)+' 顆','約每人 1～2 顆'],
-['C','地瓜／馬鈴薯（選購）','0～'+fmt(eq*.025,2)+' kg','選購時相應減少吐司或其他主食'],
+['C','地瓜／馬鈴薯（選購）','0～'+fmt(eq*.025/.6,2)+' 臺斤','選購時相應減少吐司或其他主食'],
 ['D','飲用水',Math.ceil(liq*.60)+' L','有飲水機時可減量'],
 ['D','無糖茶',Math.ceil(liq*.25)+' L','非甜飲選擇'],
 ['D','汽水／果汁',Math.max(0,liq-Math.ceil(liq*.60)-Math.ceil(liq*.25))+' L','視小孩與大人喜好'],
-['D','水果（可食部分）',fmt(fruit,2)+' kg','西瓜、葡萄等；購入量考慮果皮'],
-['D','食用冰塊',Math.ceil(e*.12)+' kg','視天氣與現場冰桶調整'],
-['E','木炭','每烤爐約 2～3 kg','請先確認實際烤爐數'],
+['D','水果（可食部分）',fmt(fruit/.6,2)+' 臺斤','西瓜、葡萄等；購入量考慮果皮'],
+['D','食用冰塊',fmt(Math.ceil(e*.12)/.6,2)+' 臺斤','視天氣與現場冰桶調整'],
+['E','木炭','每烤爐約 3.3～5 臺斤','請先確認實際烤爐數'],
 ['E','引火材／點火器','每烤爐 1 組','避免以液態燃油直接助燃'],
 ['E','烤網','每烤爐 1～2 片','檢查尺寸與是否可重複使用'],
 ['E','長夾／烤肉刷','每烤爐約 2 夾＋1 刷','生熟肉夾分開使用'],
@@ -46,7 +46,7 @@ const data=[
 ['E','烤肉醬／胡椒鹽','烤肉醬 1～2 瓶＋胡椒鹽 1 罐','與肉品組確認調味是否已含'],
 ['E','衛生袋／保鮮盒','少量備用','確認現有數量後採買']
 ];return {data,a,k,e,eq,f,m}}
-function render(){const d=build();$('stats').innerHTML=[['總人數',d.e+' 人'],['成人等效',fmt(d.eq,1)+' 份'],['牛豬雞合計',fmt(d.m,2)+' kg'],['換算臺斤',fmt(d.m/.6,2)+' 臺斤']].map(x=>'<div class="stat"><span class="muted">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');$('tabs').innerHTML=groups.map(g=>'<button class="tab '+(g[0]===active?'active':'')+'" data-group="'+g[0]+'">'+g[1]+'</button>').join('');const g=groups.find(x=>x[0]===active),arr=d.data.filter(x=>x[0]===active);$('group').innerHTML='<div class="group-head"><h2>'+g[1]+'</h2><span class="tag">'+arr.length+' 項</span></div><p class="muted">'+g[2]+'</p><div class="items">'+arr.map((x,i)=>{const key=x[0]+'|'+x[1],s=saved[key]||{};return '<article class="item"><div class="name">'+escapeHTML(x[1])+'</div><div class="quantity">'+escapeHTML(x[2])+'</div><p class="muted">'+escapeHTML(x[3])+'</p><div class="row"><div><label>認領人</label><input data-key="'+escapeHTML(key)+'" data-field="person" placeholder="尚未認領" value="'+escapeHTML(s.person||'')+'"></div><div><label>實際費用（元）</label><input type="number" min="0" data-key="'+escapeHTML(key)+'" data-field="cost" placeholder="0" value="'+escapeHTML(s.cost||'')+'"></div></div><label class="check"><input type="checkbox" data-key="'+escapeHTML(key)+'" data-field="done" '+(s.done?'checked':'')+'> 已完成採買</label></article>'}).join('')+'</div>';let table=groups.map(g=>{const sub=d.data.filter(x=>x[0]===g[0]),spent=sub.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0),complete=sub.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;return '<tr><td>'+g[1]+'</td><td>'+complete+'/'+sub.length+'</td><td>NT$ '+spent.toLocaleString()+'</td></tr>'}).join('');let total=d.data.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0);$('budget').innerHTML='<table><thead><tr><th>採買組</th><th>完成項目</th><th>已登錄費用</th></tr></thead><tbody>'+table+'</tbody></table><div class="stat" style="margin-top:12px"><span class="muted">目前登錄支出</span><b>NT$ '+total.toLocaleString()+'</b></div>'}
+function render(){const d=build();$('stats').innerHTML=[['總人數',d.e+' 人'],['成人等效',fmt(d.eq,1)+' 份'],['牛豬雞合計',fmt(d.m/.6,2)+' 臺斤'],['牛豬雞各需',fmt(d.m/3/.6,2)+' 臺斤']].map(x=>'<div class="stat"><span class="muted">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');$('tabs').innerHTML=groups.map(g=>'<button class="tab '+(g[0]===active?'active':'')+'" data-group="'+g[0]+'">'+g[1]+'</button>').join('');const g=groups.find(x=>x[0]===active),arr=d.data.filter(x=>x[0]===active);$('group').innerHTML='<div class="group-head"><h2>'+g[1]+'</h2><span class="tag">'+arr.length+' 項</span></div><p class="muted">'+g[2]+'</p><div class="items">'+arr.map((x,i)=>{const key=x[0]+'|'+x[1],s=saved[key]||{};return '<article class="item"><div class="name">'+escapeHTML(x[1])+'</div><div class="quantity">'+escapeHTML(x[2])+'</div><p class="muted">'+escapeHTML(x[3])+'</p><div class="row"><div><label>認領人</label><input data-key="'+escapeHTML(key)+'" data-field="person" placeholder="尚未認領" value="'+escapeHTML(s.person||'')+'"></div><div><label>實際費用（元）</label><input type="number" min="0" data-key="'+escapeHTML(key)+'" data-field="cost" placeholder="0" value="'+escapeHTML(s.cost||'')+'"></div></div><label class="check"><input type="checkbox" data-key="'+escapeHTML(key)+'" data-field="done" '+(s.done?'checked':'')+'> 已完成採買</label></article>'}).join('')+'</div>';let table=groups.map(g=>{const sub=d.data.filter(x=>x[0]===g[0]),spent=sub.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0),complete=sub.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;return '<tr><td>'+g[1]+'</td><td>'+complete+'/'+sub.length+'</td><td>NT$ '+spent.toLocaleString()+'</td></tr>'}).join('');let total=d.data.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0);$('budget').innerHTML='<table><thead><tr><th>採買組</th><th>完成項目</th><th>已登錄費用</th></tr></thead><tbody>'+table+'</tbody></table><div class="stat" style="margin-top:12px"><span class="muted">目前登錄支出</span><b>NT$ '+total.toLocaleString()+'</b></div>'}
 $('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-group]');if(b){active=b.dataset.group;render()}});$('group').addEventListener('change',e=>{const key=e.target.dataset.key,field=e.target.dataset.field;if(!key||!field)return;saved[key]||={};saved[key][field]=field==='done'?e.target.checked:e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()});$('group').addEventListener('blur',e=>{if(e.target.dataset.field==='person'||e.target.dataset.field==='cost'){const key=e.target.dataset.key;saved[key]||={};saved[key][e.target.dataset.field]=e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()}},true);
 for(const id of ['adults','kids','childRatio','appetite'])$(id).addEventListener('change',render);
 function copy(s){if(navigator.clipboard&&location.protocol==='https:'){navigator.clipboard.writeText(s).then(()=>alert('已複製，可貼到 LINE')).catch(()=>prompt('請複製以下內容：',s))}else prompt('請複製以下內容：',s)}
@@ -59,28 +59,28 @@ $('export').onclick=()=>{const blob=new Blob([JSON.stringify({settings:state(),r
 // Taiwan retailer reference prices, researched 2026-10-23; other entries are planning allowances.
 // Entries: [unit-price in NT$, pricing unit, source type]. Editable locally.
 const referencePrices={
-'牛肉（牛五花／燒肉片）':[599,'kg','全聯牛五花 1kg'],
-'豬肉（梅花／五花）':[469,'kg','全聯豬梅花 1kg'],
-'雞肉（去骨雞腿排）':[350,'kg','全聯雞腿肉片 250g 約 85～89 元'],
+'牛肉（牛五花／燒肉片）':[359.4,'jin','全聯牛五花 1kg'],
+'豬肉（梅花／五花）':[281.4,'jin','全聯豬梅花 1kg'],
+'雞肉（去骨雞腿排）':[210,'jin','全聯雞腿肉片 250g 約 85～89 元'],
 '香腸':[20,'piece','暫估'],
 '白蝦':[14,'piece','依全聯白蝦包裝價粗估；尺寸影響單價'],
-'其他海鮮（魚片、花枝、蛤蜊）':[300,'kg','混合海鮮暫估'],
-'杏鮑菇':[165,'kg','全聯杏鮑菇400g約65元'],
-'香菇':[325,'kg','全聯鮮香菇200g約65元'],
-'玉米筍':[290,'kg','全聯履歷玉米筍100g約29元'],
-'青椒與洋蔥':[170,'kg','混搭暫估'],
+'其他海鮮（魚片、花枝、蛤蜊）':[180,'jin','混合海鮮暫估'],
+'杏鮑菇':[99,'jin','全聯杏鮑菇400g約65元'],
+'香菇':[195,'jin','全聯鮮香菇200g約65元'],
+'玉米筍':[174,'jin','全聯履歷玉米筍100g約29元'],
+'青椒與洋蔥':[102,'jin','混搭暫估'],
 '玉米':[25,'piece','暫估'],
 '吐司':[5,'piece','暫估'],
-'甜不辣':[260,'kg','全聯 300g 約78～89元'],
-'豬血糕':[120,'kg','全聯 300g 約36元'],
+'甜不辣':[156,'jin','全聯 300g 約78～89元'],
+'豬血糕':[72,'jin','全聯 300g 約36元'],
 '棉花糖':[3,'piece','暫估'],
-'地瓜／馬鈴薯（選購）':[55,'kg','暫估；預設不計入預算'],
+'地瓜／馬鈴薯（選購）':[33,'jin','暫估；預設不計入預算'],
 '飲用水':[12,'L','暫估'],
 '無糖茶':[32,'L','暫估'],
 '汽水／果汁':[45,'L','暫估'],
-'水果（可食部分）':[130,'kg','以可食重量估算購買費用'],
-'食用冰塊':[25,'kg','暫估'],
-'木炭':[180,'set','每烤爐約 2～3kg，預設1爐'],
+'水果（可食部分）':[78,'jin','以可食重量估算購買費用'],
+'食用冰塊':[15,'jin','暫估'],
+'木炭':[180,'set','每烤爐約 3.3～5臺斤，預設1爐'],
 '引火材／點火器':[80,'set','暫估1組'],
 '烤網':[100,'set','暫估1爐'],
 '長夾／烤肉刷':[180,'set','暫估1爐'],
@@ -92,7 +92,7 @@ const referencePrices={
 '烤肉醬／胡椒鹽':[200,'set','暫估'],
 '衛生袋／保鮮盒':[80,'set','暫估']
 };
-let customPrices={};try{customPrices=JSON.parse(localStorage.getItem('bbq-unit-prices')||'{}')}catch(e){}
+let customPrices={};try{customPrices=JSON.parse(localStorage.getItem('bbq-unit-prices-per-tai-jin-v2')||'{}')}catch(e){}
 const baseRender=render;
 function estimateItem(item){const [group,name,quantity]=item, info=referencePrices[name]||[0,'set','暫估'];const unit=info[1],rate=Number(customPrices[name]??info[0]);let count=1;if(unit!=='set'){const match=quantity.match(/[\d.]+/);count=match?Number(match[0]):0;if(name==='地瓜／馬鈴薯（選購）')count=0;}return {rate,unit,count,cost:Math.round(rate*count),source:info[2]}}
 render=function(){
@@ -105,12 +105,12 @@ const left=document.createElement('span');left.textContent='預估 NT$ '+est.cos
 left.style.fontWeight='800';small.appendChild(left);
 const edit=document.createElement('label');edit.style.cssText='display:flex;align-items:center;gap:6px;margin:0';edit.textContent='單價';
 const inp=document.createElement('input');inp.type='number';inp.min='0';inp.step='1';inp.value=est.rate;inp.style.width='90px';inp.setAttribute('aria-label',item[1]+'參考單價');
-inp.addEventListener('change',()=>{customPrices[item[1]]=Math.max(0,Number(inp.value)||0);localStorage.setItem('bbq-unit-prices',JSON.stringify(customPrices));render()});
-edit.appendChild(inp);const un=document.createElement('span');un.textContent='元/'+({kg:'kg',piece:'個／份',L:'L',set:'組／批'}[est.unit]);edit.appendChild(un);small.appendChild(edit);div.appendChild(small);el.appendChild(div)
+inp.addEventListener('change',()=>{customPrices[item[1]]=Math.max(0,Number(inp.value)||0);localStorage.setItem('bbq-unit-prices-per-tai-jin-v2',JSON.stringify(customPrices));render()});
+edit.appendChild(inp);const un=document.createElement('span');un.textContent='元/'+({jin:'臺斤',piece:'個／份',L:'L',set:'組／批'}[est.unit]);edit.appendChild(un);small.appendChild(edit);div.appendChild(small);el.appendChild(div)
 });
 const totals=groups.map(g=>({label:g[1],sum:d.data.filter(x=>x[0]===g[0]).reduce((s,x)=>s+estimateItem(x).cost,0)}));
 const sum=totals.reduce((s,x)=>s+x.sum,0);
-const panel=document.createElement('section');panel.className='panel';panel.innerHTML='<h2>④ 台灣零售參考價估算</h2><p class="muted">查價日期：2026/10/23。參考全聯線上部分商品價格；無直接報價的品項以暫估值標示。單價可在各採買組品項中修改，修改值只保存在這台裝置。木炭、烤網等先按約1爐估算，請依實際爐數調整。</p><div class="grid">'+totals.map(g=>'<div class="stat"><span class="muted">'+g.label+'</span><b>NT$ '+g.sum.toLocaleString('zh-TW')+'</b></div>').join('')+'</div><div class="stat" style="margin-top:12px"><span class="muted">各組採買預估合計（非實際付款）</span><b>NT$ '+sum.toLocaleString('zh-TW')+'</b><span class="muted">約每位實際參加者 NT$ '+(d.e?Math.ceil(sum/d.e):0)+'；不含預留金</span></div><div class="actions"><button id="copyEstimate" class="main">複製各組預算至 LINE</button></div><p class="muted">參考來源：<a href="https://shop.pxgo.com.tw/hourArrive/activity/435" target="_blank" rel="noopener">全聯肉品及海鮮</a>、<a href="https://shop.pxgo.com.tw/hourArrive/activity/142" target="_blank" rel="noopener">全聯蔬菜副食</a>。促銷、包裝規格、供應地區與現場市場價可能不同。每項價格都僅供編列預算，採買前仍需向店家確認。</p>';
+const panel=document.createElement('section');panel.className='panel';panel.innerHTML='<h2>④ 台灣零售參考價估算</h2><p class="muted">查價日期：2026/10/23。參考全聯線上部分商品價格；重量類單價已換算成新臺幣／臺斤（1臺斤＝0.6公斤）。無直接報價的品項以暫估值標示。單價可在各採買組品項中修改，修改值只保存在這台裝置。木炭、烤網等先按約1爐估算，請依實際爐數調整。</p><div class="grid">'+totals.map(g=>'<div class="stat"><span class="muted">'+g.label+'</span><b>NT$ '+g.sum.toLocaleString('zh-TW')+'</b></div>').join('')+'</div><div class="stat" style="margin-top:12px"><span class="muted">各組採買預估合計（非實際付款）</span><b>NT$ '+sum.toLocaleString('zh-TW')+'</b><span class="muted">約每位實際參加者 NT$ '+(d.e?Math.ceil(sum/d.e):0)+'；不含預留金</span></div><div class="actions"><button id="copyEstimate" class="main">複製各組預算至 LINE</button></div><p class="muted">參考來源：<a href="https://shop.pxgo.com.tw/hourArrive/activity/435" target="_blank" rel="noopener">全聯肉品及海鮮</a>、<a href="https://shop.pxgo.com.tw/hourArrive/activity/142" target="_blank" rel="noopener">全聯蔬菜副食</a>。促銷、包裝規格、供應地區與現場市場價可能不同。每項價格都僅供編列預算，採買前仍需向店家確認。</p>';
 const old=document.getElementById('estimatesPanel');if(old)old.remove();panel.id='estimatesPanel';$('budget').parentElement.after(panel);
 $('copyEstimate').onclick=()=>copy('🍖 聯合烤肉｜台灣參考採買預算（2026/10/23）\n人數：'+d.a+'大 '+d.k+'小\n'+totals.map(x=>x.label+' NT$ '+x.sum.toLocaleString('zh-TW')).join('\n')+'\n合計 NT$ '+sum.toLocaleString('zh-TW')+'\n僅供預算參考，實付以收據為準。');
 };
