@@ -6,7 +6,7 @@
 <section class="panel"><h2>③ 預算與採買進度</h2><p class="muted">填入每項實際採買金額與認領人，以本機進行統計；公平分攤建議由統籌統一核銷，不要求各組購買相同金額。</p><div id="budget"></div><div class="actions"><button id="export">匯出本機採買紀錄 JSON</button><button id="clear">清除本機認領與金額</button></div></section><p class="foot">採買數量為台灣家庭式多品項烤肉的保守初估，實際請按去年剩食、年齡、飲食禁忌及食材規格修正。重量多為購買重量估算；帶骨肉、帶殼海鮮與水果可食率不同。烤肉架、桌椅、垃圾桶、野餐墊、切煮工具、延長線、照明燈、冰桶、手套、桶子、垃圾袋、扇子等既有設備不列入採買。© 小組聯合烤肉採買規劃</p></main>
 <script>
 const $=id=>document.getElementById(id), fmt=(v,n=1)=>Number(v.toFixed(n)).toLocaleString('zh-TW'), escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const groups=[['A','🥩 肉品組（2人）','牛、豬、雞切片為主，香腸另外計算。'],['B','🦐 海鮮蔬菜菇類組（3人）','花枝、魷魚可擇一；蔬菜與菇類少量多樣。'],['C','🍞 主食與其他組（2人）','主食種類多，份量請統籌避免重複。'],['D','🥤 點心飲料組（2人）','飲料成人 700 mL／人，兒童依食量比例換算；各款飲料可自行替換。'],['E','🍽️ 醬料與配件組（2人）','烤肉架列入設備確認、烤肉刷列入採買，盤點既有工具。']];
+const groups=[['A','🥩 肉品組（2人）','牛、豬、雞切片為主，香腸另外計算。'],['B','🦐 海鮮蔬菜菇類組（3人）','花枝、魷魚可擇一；蔬菜與菇類少量多樣。'],['C','🍞 主食與其他組（2人）','主食種類多，份量請統籌避免重複。'],['D','🥤 點心飲料組（2人）','飲料成人 700 mL／人，兒童依食量比例換算；各款飲料可自行替換。'],['E','🍽️ 醬料與配件組（2人）','烤肉架列入設備確認、烤肉刷列入採買；標註「免採買」用品仍需確認現場是否有，或從家裡攜帶。']];
 let active='A', saved={};try{saved=JSON.parse(localStorage.getItem('bbq-purchases')||'{}')}catch(e){}
 let p=new URLSearchParams(location.search);for(const k of ['adults','kids57','kids811','kids1216','appetite'])if(p.has(k)&&$(k)){const v=p.get(k);if($(k).tagName==='SELECT'){if([...$(k).options].some(o=>o.value===v))$(k).value=v}else if(/^\d+$/.test(v))$(k).value=Math.min(300,Number(v))}if(p.has('kids')&&!['kids57','kids811','kids1216'].some(k=>p.has(k))){const n=Math.max(0,Math.min(300,Number(p.get('kids'))||0));$('kids57').value=Math.round(n*.8);$('kids811').value=0;$('kids1216').value=n-Math.round(n*.8)}
 function state(){const valid=id=>Math.max(0,Math.min(300,Math.floor(Number($(id).value)||0))),a=valid('adults'),k57=valid('kids57'),k811=valid('kids811'),k1216=valid('kids1216'),k=k57+k811+k1216,e=a+k,eq=a+k57*.4+k811*.6+k1216*.9,f=Number($('appetite').value);return {a,k,k57,k811,k1216,e,eq,f}}
@@ -70,16 +70,11 @@ const data=[
 ['E','紙碗',Math.ceil(e*.6)+' 個','點心及沾醬用'],
 ['E','紙杯',Math.ceil(e*1.15)+' 個','用姓名貼區分'],
 ['E','筷子',Math.ceil(e*1.15)+' 雙','約 15% 備量'],
-['E','牙籤','1 包','取用熟食'],
+['E','牙籤（選購／免採買）','0 包','可選擇不準備；若需要，先詢問淳韻士方家是否有，或由組員自家帶來'],
 ['E','竹籤','1 包','串烤或取熟食'],
-['E','醬料碟','8 個','分裝沾醬'],
-['E','廚房紙巾','2 捲','擦拭桌面、器具'],
-['E','濕紙巾','2 包','清潔'],
-['E','保鮮盒／夾鏈袋','1 組','存放食材'],
-['E','洗碗精／海綿（盤點）','0 組','已備有則不採買'],
-['E','肥皂／乾洗手（盤點）','0 組','確認現場有清潔用品'],
-['E','剪刀／菜刀／砧板（盤點）','0 組','先前已備有，確認可分開處理生熟食'],
-['E','滅火器／燙傷急救用品（盤點）','0 組','確認現場可立即取用']
+['E','廚房紙巾（免採買）','2 捲','需準備：先詢問淳韻士方家是否有，否則從家裡帶來'],
+['E','濕紙巾（免採買）','2 包','需準備：先詢問淳韻士方家是否有，否則從家裡帶來'],
+['E','剪刀／菜刀／砧板（免採買）','1 組','需準備：先詢問淳韻士方家是否有，否則從家裡帶來；生熟食分開處理'],
 ];return {data,a,k,e,eq,f,m}}
 function render(){const d=build();$('stats').innerHTML=[['總人數',d.e+' 人'],['成人等效',fmt(d.eq,1)+' 份'],['牛豬雞合計',fmt(d.m/.6,2)+' 臺斤'],['牛豬雞各需',fmt(d.m/3/.6,2)+' 臺斤']].map(x=>'<div class="stat"><span class="muted">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');$('tabs').innerHTML=groups.map(g=>'<button class="tab '+(g[0]===active?'active':'')+'" data-group="'+g[0]+'">'+g[1]+'</button>').join('');const g=groups.find(x=>x[0]===active),arr=d.data.filter(x=>x[0]===active);$('group').innerHTML='<div class="group-head"><h2>'+g[1]+'</h2><span class="tag">'+arr.length+' 項</span></div><p class="muted">採買份量，供參考，可以自行調整</p><p class="muted">'+g[2]+'</p><div class="items">'+arr.map((x,i)=>{const key=x[0]+'|'+x[1],s=saved[key]||{};return '<article class="item"><div class="name">'+escapeHTML(x[1])+'</div><div class="quantity">'+escapeHTML(x[2])+'</div><p class="muted">'+escapeHTML(x[3])+'</p><div class="row"><div><label>認領人</label><input data-key="'+escapeHTML(key)+'" data-field="person" placeholder="尚未認領" value="'+escapeHTML(s.person||'')+'"></div><div><label>實際費用（元）</label><input type="number" min="0" data-key="'+escapeHTML(key)+'" data-field="cost" placeholder="0" value="'+escapeHTML(s.cost||'')+'"></div></div><label class="check"><input type="checkbox" data-key="'+escapeHTML(key)+'" data-field="done" '+(s.done?'checked':'')+'> 已完成採買</label></article>'}).join('')+'</div>';let table=groups.map(g=>{const sub=d.data.filter(x=>x[0]===g[0]),spent=sub.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0),complete=sub.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;return '<tr><td>'+g[1]+'</td><td>'+complete+'/'+sub.length+'</td><td>NT$ '+spent.toLocaleString()+'</td></tr>'}).join('');let total=d.data.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0);$('budget').innerHTML='<table><thead><tr><th>採買組</th><th>完成項目</th><th>已登錄費用</th></tr></thead><tbody>'+table+'</tbody></table><div class="stat" style="margin-top:12px"><span class="muted">目前登錄支出</span><b>NT$ '+total.toLocaleString()+'</b></div>'}
 $('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-group]');if(b){active=b.dataset.group;render()}});$('group').addEventListener('change',e=>{const key=e.target.dataset.key,field=e.target.dataset.field;if(!key||!field)return;saved[key]||={};saved[key][field]=field==='done'?e.target.checked:e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()});$('group').addEventListener('blur',e=>{if(e.target.dataset.field==='person'||e.target.dataset.field==='cost'){const key=e.target.dataset.key;saved[key]||={};saved[key][e.target.dataset.field]=e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()}},true);
@@ -151,20 +146,15 @@ const referencePrices={
 "紙碗":[3,"piece","暫估"],
 "紙杯":[3,"piece","暫估"],
 "筷子":[3,"piece","暫估"],
-"牙籤":[25,"set","暫估一包"],
+"牙籤（選購／免採買）":[0,"set","選購但免採買；從現場或家中準備"],
 "竹籤":[35,"set","暫估一包"],
-"醬料碟":[4,"piece","暫估"],
-"廚房紙巾":[45,"piece","暫估"],
-"濕紙巾":[65,"piece","暫估"],
-"保鮮盒／夾鏈袋":[80,"set","暫估一組"],
-"洗碗精／海綿（盤點）":[80,"set","現有設備盤點，預設0"],
-"肥皂／乾洗手（盤點）":[80,"set","現有設備盤點，預設0"],
-"剪刀／菜刀／砧板（盤點）":[200,"set","現有設備盤點，預設0"],
-"滅火器／燙傷急救用品（盤點）":[200,"set","現有設備盤點，預設0"]
+"廚房紙巾（免採買）":[0,"piece","從淳韻士方家或組員家中準備；不列入預算"],
+"濕紙巾（免採買）":[0,"piece","從淳韻士方家或組員家中準備；不列入預算"],
+"剪刀／菜刀／砧板（免採買）":[0,"set","從淳韻士方家或組員家中準備；不列入預算"],
 };
 let customPrices={};try{customPrices=JSON.parse(localStorage.getItem('bbq-unit-prices-per-tai-jin-v2')||'{}')}catch(e){}
 const baseRender=render;
-function estimateItem(item){const [group,name,quantity]=item, info=referencePrices[name]||[0,'set','暫估'];const unit=info[1],rate=Number(customPrices[name]??info[0]);let count=1;if(unit!=='set'){const match=quantity.match(/[\d.]+/);count=match?Number(match[0]):0;}else if(/^0(?:\s|$)/.test(quantity))count=0;return {rate,unit,count,cost:Math.round(rate*count),source:info[2]}}
+function estimateItem(item){const [group,name,quantity]=item, info=referencePrices[name]||[0,'set','暫估'];const unit=info[1],rate=name.includes('免採買')?0:Number(customPrices[name]??info[0]);let count=1;if(unit!=='set'){const match=quantity.match(/[\d.]+/);count=match?Number(match[0]):0;}else if(/^0(?:\s|$)/.test(quantity))count=0;return {rate,unit,count,cost:Math.round(rate*count),source:info[2]}}
 render=function(){
 baseRender();const d=build();
 document.querySelectorAll('#group .item').forEach((el,i)=>{
