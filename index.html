@@ -158,8 +158,8 @@ const data=[
 ['E','濕紙巾（免採買）','2 包','需準備：先詢問淳韻士方家是否有，否則從家裡帶來'],
 ['E','剪刀／菜刀／砧板（免採買）','1 組','需準備：先詢問淳韻士方家是否有，否則從家裡帶來；生熟食分開處理'],
 ];return {data,a,k,e,eq,f,m}}
-function render(){const d=build();$('stats').innerHTML=[['總人數',d.e+' 人'],['成人等效',fmt(d.eq,1)+' 份'],['牛豬雞合計',fmt(d.m/.6,2)+' 臺斤'],['牛豬雞各需',fmt(d.m/3/.6,2)+' 臺斤']].map(x=>'<div class="stat"><span class="muted">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');$('tabs').innerHTML=groups.map(g=>'<button class="tab '+(g[0]===active?'active':'')+'" data-group="'+g[0]+'">'+g[1]+'</button>').join('');const g=groups.find(x=>x[0]===active),arr=d.data.filter(x=>x[0]===active);$('group').innerHTML='<div class="group-head"><h2>'+g[1]+'</h2><span class="tag">'+arr.length+' 項</span></div><p class="muted">採買份量，供參考，可以自行調整</p><p class="muted">'+g[2]+'</p><div class="items">'+arr.map((x,i)=>{const key=x[0]+'|'+x[1],s=saved[key]||{};return '<article class="item"><div class="name">'+escapeHTML(x[1])+'</div><div class="quantity">'+escapeHTML(x[2])+'</div><p class="muted">'+escapeHTML(x[3])+'</p><div class="row"><div><label>認領人</label><input data-key="'+escapeHTML(key)+'" data-field="person" placeholder="尚未認領" value="'+escapeHTML(s.person||'')+'"></div><div><label>實際費用（元）</label><input type="number" min="0" data-key="'+escapeHTML(key)+'" data-field="cost" placeholder="0" value="'+escapeHTML(s.cost||'')+'"></div></div><label class="check"><input type="checkbox" data-key="'+escapeHTML(key)+'" data-field="done" '+(s.done?'checked':'')+'> 已完成採買</label></article>'}).join('')+'</div>';let table=groups.map(g=>{const sub=d.data.filter(x=>x[0]===g[0]),spent=sub.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0),complete=sub.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;return '<tr><td>'+g[1]+'</td><td>'+complete+'/'+sub.length+'</td><td>NT$ '+spent.toLocaleString()+'</td></tr>'}).join('');let total=d.data.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0);$('budget').innerHTML='<table><thead><tr><th>採買組</th><th>完成項目</th><th>已登錄費用</th></tr></thead><tbody>'+table+'</tbody></table><div class="stat" style="margin-top:12px"><span class="muted">目前登錄支出</span><b>NT$ '+total.toLocaleString()+'</b></div>'}
-$('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-group]');if(b){active=b.dataset.group;render()}});$('group').addEventListener('change',e=>{const key=e.target.dataset.key,field=e.target.dataset.field;if(!key||!field)return;saved[key]||={};saved[key][field]=field==='done'?e.target.checked:e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()});$('group').addEventListener('blur',e=>{if(e.target.dataset.field==='person'||e.target.dataset.field==='cost'){const key=e.target.dataset.key;saved[key]||={};saved[key][e.target.dataset.field]=e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()}},true);
+function render(){const d=build();$('stats').innerHTML=[['總人數',d.e+' 人'],['成人等效',fmt(d.eq,1)+' 份'],['牛豬雞合計',fmt(d.m/.6,2)+' 臺斤'],['牛豬雞各需',fmt(d.m/3/.6,2)+' 臺斤']].map(x=>'<div class="stat"><span class="muted">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');$('tabs').innerHTML=groups.map(g=>'<button class="tab '+(g[0]===active?'active':'')+'" data-group="'+g[0]+'">'+g[1]+'</button>').join('');const g=groups.find(x=>x[0]===active),arr=d.data.filter(x=>x[0]===active);$('group').innerHTML='<div class="group-head"><h2>'+g[1]+'</h2><span class="tag">'+arr.length+' 項</span></div><p class="muted">採買份量，供參考，可以自行調整</p><p class="muted">'+g[2]+'</p><div class="items">'+arr.map((x,i)=>{const key=x[0]+'|'+x[1],s=saved[key]||{};return '<article class="item '+(s.done?'done ':'')+(x[1].includes('免採買')?'supply':'')+'"><div class="status-pill '+(s.done?'complete':x[1].includes('免採買')?'supply':s.person?'progress':'')+'">'+(s.done?'✓ 已完成':x[1].includes('免採買')?'⌂ 僅需準備':s.person?'◐ 採買中':'◌ 待採買')+'</div><div class="name">'+escapeHTML(x[1])+'</div><div class="quantity">'+escapeHTML(x[2])+'</div><p class="muted">'+escapeHTML(x[3])+'</p><div class="row"><div><label>實際採買數量</label><input data-key="'+escapeHTML(key)+'" data-field="qty" placeholder="例：1 臺斤、2 包" value="'+escapeHTML(s.qty||'')+'"></div><div><label>認領人</label><input data-key="'+escapeHTML(key)+'" data-field="person" placeholder="尚未認領" value="'+escapeHTML(s.person||'')+'"></div><div><label>實際費用（元）</label><input type="number" min="0" data-key="'+escapeHTML(key)+'" data-field="cost" placeholder="0" value="'+escapeHTML(s.cost||'')+'"></div></div><label class="check"><input type="checkbox" data-key="'+escapeHTML(key)+'" data-field="done" '+(s.done?'checked':'')+'> '+(x[1].includes('免採買')?'已確認備妥／攜帶':'已完成採買')+'</label></article>'}).join('')+'</div>';let table=groups.map(g=>{const sub=d.data.filter(x=>x[0]===g[0]),spent=sub.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0),complete=sub.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;return '<tr><td>'+g[1]+'</td><td>'+complete+'/'+sub.length+'</td><td>NT$ '+spent.toLocaleString()+'</td></tr>'}).join('');let total=d.data.reduce((n,x)=>n+(Number((saved[x[0]+'|'+x[1]]||{}).cost)||0),0);$('budget').innerHTML='<table><thead><tr><th>採買組</th><th>完成項目</th><th>已登錄費用</th></tr></thead><tbody>'+table+'</tbody></table><div class="stat" style="margin-top:12px"><span class="muted">目前登錄支出</span><b>NT$ '+total.toLocaleString()+'</b></div>'}
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-group]');if(b){active=b.dataset.group;render()}});$('group').addEventListener('change',e=>{const key=e.target.dataset.key,field=e.target.dataset.field;if(!key||!field)return;saved[key]||={};saved[key][field]=field==='done'?e.target.checked:e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()});$('group').addEventListener('blur',e=>{if(['person','cost','qty'].includes(e.target.dataset.field)){const key=e.target.dataset.key;saved[key]||={};saved[key][e.target.dataset.field]=e.target.value;localStorage.setItem('bbq-purchases',JSON.stringify(saved));render()}},true);
 for(const id of ['adults','kids57','kids811','kids1216','appetite'])$(id).addEventListener('change',render);
 function copy(s){if(navigator.clipboard&&location.protocol==='https:'){navigator.clipboard.writeText(s).then(()=>alert('已複製，可貼到 LINE')).catch(()=>prompt('請複製以下內容：',s))}else prompt('請複製以下內容：',s)}
 $('share').onclick=()=>{const d=build();copy('🍖 New × 敬傑小組｜10/31 聯合烤肉採買表\n大人 '+d.a+' 位；5～7歲 '+d.k57+' 位；8～11歲 '+d.k811+' 位；12～16歲 '+d.k1216+' 位，成人等效 '+fmt(d.eq,1)+' 份\n依少量多樣原則試算；請各組確認品項與數量。\n\n'+groups.map(g=>g[1]+'\n'+d.data.filter(x=>x[0]===g[0]).map(x=>'• '+x[1]+'：'+x[2]).join('\n')).join('\n\n'))};
@@ -257,4 +257,43 @@ const old=document.getElementById('estimatesPanel');if(old)old.remove();panel.id
 $('copyEstimate').onclick=()=>copy('🍖 聯合烤肉｜台灣參考採買預算（2026/10/23）\n人數：'+d.a+'大／5～7歲 '+d.k57+'／8～11歲 '+d.k811+'／12～16歲 '+d.k1216+'\n'+totals.map(x=>x.label+' NT$ '+x.sum.toLocaleString('zh-TW')).join('\n')+'\n合計 NT$ '+sum.toLocaleString('zh-TW')+'\n僅供預算參考，實付以收據為準。');
 };
 render();
-</script></body></html>
+</script>
+<script>
+/* Friendly BBQ dashboard; all records remain local to this browser. */
+(function(){
+const colors=[
+{soft:"#ffeedc",edge:"#f1d1ac",emoji:"🥩",label:"肉品"},
+{soft:"#eaf1e5",edge:"#cad8be",emoji:"🦐",label:"海鮮蔬菜"},
+{soft:"#fff2d9",edge:"#ead6ab",emoji:"🍞",label:"主食"},
+{soft:"#fce9dc",edge:"#edceb2",emoji:"🥤",label:"點心飲料"},
+{soft:"#eef0e3",edge:"#d8d6b9",emoji:"🍽️",label:"醬料配件"}];
+const originalRender=render;
+render=function(){
+originalRender();
+const d=build();
+const done=d.data.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;
+const prepared=d.data.filter(x=>x[1].includes('免採買')).length;
+const assigned=d.data.filter(x=>{const s=saved[x[0]+'|'+x[1]]||{};return !!s.person&&!s.done}).length;
+const total=d.data.length;
+const percent=total?Math.round(done/total*100):0;
+$('progressText').textContent=percent+'%';
+$('progressFill').style.width=percent+'%';
+$('progressDetail').innerHTML='<span>✅ <b>'+done+'</b> / '+total+' 項已完成</span><span>🛒 <b>'+assigned+'</b> 項已認領</span><span>🏠 <b>'+prepared+'</b> 項只需準備</span>';
+$('groupEntrances').innerHTML=groups.map((g,i)=>{
+const items=d.data.filter(x=>x[0]===g[0]),count=items.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;
+const pct=items.length?Math.round(count/items.length*100):0,t=colors[i];
+return '<button class="group-entry '+(active===g[0]?'active':'')+'" style="--soft:'+t.soft+';--edge:'+t.edge+'" data-enter="'+g[0]+'" aria-label="查看 '+t.label+'小隊採買清單"><span class="emoji">'+t.emoji+'</span><span class="letter">'+g[0]+' 組 · '+t.label+'</span><span class="small">'+count+' / '+items.length+' 項完成　'+pct+'%</span><span class="group-meter"><span style="width:'+pct+'%"></span></span></button>'
+}).join('');
+const arr=d.data.filter(x=>x[0]===active),count=arr.filter(x=>(saved[x[0]+'|'+x[1]]||{}).done).length;
+const summary=document.createElement('div');summary.className='group-summary';
+summary.innerHTML='<span>已完成 '+count+' / '+arr.length+' 項</span><div class="mini-track"><span style="display:block;width:'+(arr.length?count/arr.length*100:0)+'%"></span></div>';
+$('group').querySelector('.group-head')?.after(summary);
+};
+$('groupEntrances').addEventListener('click',e=>{
+const b=e.target.closest('[data-enter]');if(!b)return;active=b.dataset.enter;render();
+$('groupSection').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+});
+render();
+})();
+</script>
+</body></html>
