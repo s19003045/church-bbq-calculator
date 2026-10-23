@@ -1,9 +1,91 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#274637"><title>聯合小組烤肉｜採買計算器</title><style>
-:root{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;color:#273a2d;background:#f7f5ef}*{box-sizing:border-box}body{margin:0}header{background:#274637;color:#fff;padding:32px max(18px,calc((100vw - 1050px)/2))}header small{color:#e9ce8c;letter-spacing:2px}h1{font-size:clamp(25px,5vw,38px);margin:8px 0}header p{color:#e3e8db;line-height:1.6;margin:0}.wrap{max-width:1050px;margin:auto;padding:20px 16px 55px}.panel{background:#fff;border:1px solid #e2e5de;border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 2px 12px #1f372706}h2{font-size:21px;margin:0 0 15px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#f1f5ed;border-radius:12px;padding:14px}.stat b{display:block;font-size:24px;margin-top:6px}.muted{color:#65766a;font-size:13px;line-height:1.6}.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}label{display:block;font-size:13px;font-weight:700;color:#516658;margin-bottom:5px}input,select{width:100%;padding:10px;border:1px solid #cdd7cb;border-radius:10px;font:inherit;background:white;color:#243d2d}button{font:inherit;cursor:pointer;border:1px solid #becfc1;border-radius:10px;background:white;color:#254733;padding:10px 13px;font-weight:700}button.main{background:#27563c;color:white;border-color:#27563c}.actions{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}.tab.active{background:#27563c;color:white}.group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.tag{border-radius:99px;background:#eef4ec;padding:5px 10px;font-size:12px;font-weight:700}.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.item{border:1px solid #e3e6df;border-radius:12px;padding:13px}.item .name{font-weight:800}.item .quantity{color:#325e43;font-weight:800;font-size:19px;margin:7px 0}.item .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.item .check{display:flex;gap:6px;align-items:center;margin:12px 0 0}.item .check input{width:auto}.note{background:#fff7df;border-left:4px solid #d9b45a;border-radius:9px;padding:12px;font-size:13px;line-height:1.7;margin:12px 0}.foot{font-size:12px;color:#6d7f72;line-height:1.7;margin-top:20px}.hide{display:none}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:11px 8px;border-bottom:1px solid #e5e9e2;font-size:14px}th{color:#5a7160}@media(max-width:700px){.grid,.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.items{grid-template-columns:1fr}.panel{padding:14px}}@media(max-width:350px){.grid,.controls{grid-template-columns:1fr}}
-</style></head><body><header><small>NEW × 敬傑小組 · 2026/10/31（六）</small><h1>🍖 聯合烤肉採買計算器</h1><p>少量多樣・兩組一起採買・一起享受團契。15:30–17:30 準備，17:30 開始烤肉。</p></header>
-<main class="wrap"><section class="panel"><h2>① 設定實際參加人數</h2><div class="controls"><div><label for="adults">大人人數</label><input id="adults" type="number" min="0" max="300" value="15"></div><div><label for="kids57">5～7 歲小孩</label><input id="kids57" type="number" min="0" max="300" value="6"></div><div><label for="kids811">8～11 歲小孩</label><input id="kids811" type="number" min="0" max="300" value="0"></div><div><label for="kids1216">12～16 歲小孩</label><input id="kids1216" type="number" min="0" max="300" value="2"></div><div><label for="appetite">整體食量</label><select id="appetite"><option value=".85">偏少（85%）</option><option value="1" selected>一般（100%）</option><option value="1.2">偏多（120%）</option></select></div></div><p class="muted">目前以 15 位大人、5～7 歲 6 人、8～11 歲 0 人、12～16 歲 2 人示範。兒童食量分別按成人的 40%、60%、90% 計；成人牛豬雞基準為 200g 去骨生肉／人（香腸和海鮮另外計算）。正式人數確定後請逐欄更新。建議由統籌統一確認菜單，避免各組各自加量。</p><div id="stats" class="grid"></div><div class="actions"><button class="main" id="share">複製 LINE 採買總表</button><button id="link">複製參數分享網址</button><button id="reset">恢復預設人數</button></div><div class="note">⚠️ 這是靜態計算器：分享連結只包含人數與食量設定；各組填入的認領人、實際金額及完成勾選僅儲存在自己的瀏覽器，不會同步給其他人。統一採買版本請用「複製 LINE 採買總表」。</div></section>
-<section class="panel"><div class="group-head"><h2>② 各組採買品項與數量</h2><span class="tag">1 臺斤 = 600 g</span></div><div class="tabs" id="tabs"></div><div id="group"></div></section>
-<section class="panel"><h2>③ 預算與採買進度</h2><p class="muted">填入每項實際採買金額與認領人，以本機進行統計；公平分攤建議由統籌統一核銷，不要求各組購買相同金額。</p><div id="budget"></div><div class="actions"><button id="export">匯出本機採買紀錄 JSON</button><button id="clear">清除本機認領與金額</button></div></section><p class="foot">採買數量為台灣家庭式多品項烤肉的保守初估，實際請按去年剩食、年齡、飲食禁忌及食材規格修正。重量多為購買重量估算；帶骨肉、帶殼海鮮與水果可食率不同。烤肉架、桌椅、垃圾桶、野餐墊、切煮工具、延長線、照明燈、冰桶、手套、桶子、垃圾袋、扇子等既有設備不列入採買。© 小組聯合烤肉採買規劃</p></main>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#FFF7E8"><title>聯合小組烤肉｜採買計算器</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap');
+:root{font-family:"Noto Sans TC",system-ui,-apple-system,sans-serif;color:#4B3529;background:#FFF7E8}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 5% 12%,#ffedc8 0,transparent 23%),radial-gradient(circle at 95% 36%,#f5e6ce 0,transparent 20%),#FFF7E8;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #F18B45;outline-offset:3px}
+header{position:relative;isolation:isolate;overflow:hidden;color:#4B3529;background:linear-gradient(120deg,#fff0d5 5%,#ffe8c5 55%,#f8dba9 100%);border-bottom:1px solid #e6c9a9}
+header:before{content:"";position:absolute;inset:0;z-index:-2;opacity:.22;background:repeating-linear-gradient(108deg,transparent 0 12px,#fff 12px 13px),radial-gradient(circle at 75% 85%,#8daa80 0,transparent 32%)}
+.hero{max-width:1100px;margin:auto;padding:34px 22px 26px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,.77fr);align-items:center;gap:30px;min-height:320px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff9ecdc;border:1px solid #e7c898;color:#8D5130;font-size:12px;font-weight:900;letter-spacing:.09em;padding:8px 14px;border-radius:50px}
+h1{font-weight:900;letter-spacing:-.045em;font-size:clamp(31px,5vw,52px);line-height:1.24;color:#8C4C2C;margin:18px 0 12px}h1 .accent{color:#EB8543}
+.hero p{font-size:15px;line-height:1.95;max-width:520px;margin:0;color:#735744}
+.hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:21px}
+button{border:1px solid #E8D9C5;border-radius:13px;padding:11px 17px;background:#fff;color:#73503D;font-weight:800;transition:transform .16s,background .16s,box-shadow .16s;min-height:43px}
+button:hover{transform:translateY(-1px);box-shadow:0 5px 15px #99572e12}button:active{transform:scale(.98)}
+button.main,.primary{background:#F18B45;color:#fff;border-color:#F18B45;box-shadow:0 5px 12px #e88a4430}
+button.main:hover,.primary:hover{background:#e47c35}
+button.secondary{background:#fff9ed;border-color:#E5C9A7;color:#875137}
+.hero-art{position:relative;min-height:260px;border-radius:28px;background:linear-gradient(165deg,#faf1dc,#f3ddae);border:1px solid #f0d3a0;box-shadow:0 17px 35px #b96e2a17;overflow:hidden}
+.hero-art:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,#88a678 0 15%,transparent 47%);opacity:.57}
+.art-bulbs{position:absolute;top:0;left:0;width:100%;height:75px}.art-bulbs path{stroke:#956b4a;stroke-width:2;fill:none}.art-bulbs circle{fill:#ffe59d;stroke:#d6a95c;stroke-width:1.5}
+.art-title{position:absolute;top:75px;right:18px;transform:rotate(7deg);background:#ae6f42;padding:9px 14px;color:#fff4dc;border:3px solid #dca776;border-radius:8px;font-size:14px;font-weight:900;box-shadow:4px 6px 0 #794a2a25}
+.art-scene{position:absolute;bottom:11px;left:20px;right:20px;display:flex;justify-content:center;align-items:flex-end;gap:12px;font-size:62px;filter:drop-shadow(0 7px 3px #714d2720)}
+.art-scene span:nth-child(2){font-size:92px}.art-scene span:nth-child(3){font-size:56px}
+.wrap{max-width:1100px;margin:auto;padding:16px 19px 60px}
+.panel{background:#fff;border:1px solid #f0e4d2;border-radius:24px;padding:24px;margin:17px 0;box-shadow:0 5px 18px #774e2410}
+h2{color:#874d30;font-weight:900;font-size:clamp(18px,2.4vw,23px);margin:0 0 16px}
+h3{margin:0;color:#624332}
+.muted{font-size:13px;line-height:1.75;color:#826d5d}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{background:#fffaef;border:1px solid #f2e5cf;border-radius:17px;padding:16px}
+.stat b{display:block;color:#96532f;font-size:clamp(20px,2.3vw,25px);font-weight:900;margin-top:5px}
+label{display:block;font-size:13px;font-weight:800;color:#725644;margin:0 0 7px}
+input,select{width:100%;min-width:0;padding:11px 12px;border:1px solid #e6d7c5;border-radius:12px;background:#fffefa;color:#4B3529;font-size:15px}
+input[type=checkbox]{accent-color:#6D9066;width:22px;height:22px;flex-shrink:0;cursor:pointer}
+.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:17px 0}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0 22px}
+.tab{border-color:#eee0cf;background:#fff8ed;border-radius:15px;min-height:48px}
+.tab.active{color:#fff;background:#A45A37;border-color:#A45A37}
+.group-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tag{display:inline-flex;background:#fff0d1;border:1px solid #efdbb5;color:#995a30;border-radius:50px;padding:6px 12px;font-size:12px;font-weight:900}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.item{border:1px solid #eee1cd;border-radius:19px;padding:17px;background:#fffdf7;transition:transform .16s,box-shadow .16s,border-color .16s;min-width:0}
+.item:hover{border-color:#f4ca9a;box-shadow:0 9px 23px #9f653311}
+.item.done{background:#f5faf2;border-color:#cce0c8}
+.item.supply{background:#fffaf1;border-color:#f1d9a9}
+.item .name{font-size:16px;font-weight:900;color:#62402c;line-height:1.6}
+.item .quantity{font-size:21px;font-weight:900;color:#A45A37;margin:7px 0}
+.item .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.item .check{display:flex;align-items:center;gap:10px;min-height:46px;margin:14px 0 0;border-radius:12px;background:#f4f7ef;padding:8px 12px;font-size:14px;font-weight:800;color:#52744e;cursor:pointer}
+.item .muted{margin:7px 0}
+.note{background:#fff7df;border:1px solid #f0dba2;border-left:5px solid #EFCF74;border-radius:14px;padding:14px 16px;font-size:13px;color:#72563c;line-height:1.8;margin:15px 0}
+.foot{font-size:12px;color:#8e7864;line-height:1.9;margin:28px 5px}
+table{width:100%;border-collapse:collapse}td,th{padding:12px 8px;text-align:left;border-bottom:1px solid #f0e6db;font-size:13px}th{color:#886b50}
+#budget{overflow:auto}
+.group-entrances{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:12px 0}
+.group-entry{display:flex;flex-direction:column;align-items:flex-start;min-height:158px;text-align:left;background:linear-gradient(150deg,var(--soft),#fffdfa);border:1px solid var(--edge);border-radius:21px;padding:16px;box-shadow:0 5px 16px #a86b3010}
+.group-entry.active{outline:2px solid #f18b45;outline-offset:1px}
+.group-entry .emoji{font-size:29px}
+.group-entry .letter{font-weight:900;font-size:16px;color:#805037;margin:7px 0 2px}
+.group-entry .small{font-size:12px;color:#8d735f;line-height:1.5}
+.group-entry .group-meter{height:5px;background:#ebdfd4;border-radius:10px;overflow:hidden;width:100%;margin-top:auto}
+.group-entry .group-meter span{display:block;height:100%;background:#6D9066;border-radius:10px}
+.overview{background:linear-gradient(110deg,#ffffff 50%,#fffaf1);border:1px solid #f1e1c8;border-radius:24px;padding:21px 24px;margin:16px 0}
+.overview-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.overview .big-num{font-size:30px;font-weight:900;color:#A45A37}
+.track{height:13px;background:#f0e7d8;overflow:hidden;border-radius:50px;margin:14px 0 11px}
+.track>span{height:100%;display:block;border-radius:50px;background:linear-gradient(90deg,#a3bc8e,#6D9066);transition:width .25s}
+.legend{display:flex;gap:13px;flex-wrap:wrap;font-size:12px;color:#776252}
+.legend b{font-weight:900;color:#A45A37}
+.status-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:4px 9px;border-radius:100px;font-weight:900;background:#fff0d0;color:#995831;margin-bottom:8px}
+.status-pill.complete{background:#e5f2df;color:#4f7448}.status-pill.supply{background:#fff0d9;color:#a26b32}.status-pill.progress{background:#e9f1de;color:#557748}
+.section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:24px 2px 12px}
+.section-heading h2{margin:0}.section-heading p{margin:5px 0 0}
+.group-summary{display:flex;align-items:center;gap:8px;margin:12px 0 16px;font-size:13px;color:#7c6656;font-weight:800}
+.group-summary .mini-track{height:7px;max-width:180px;flex:1;background:#f0e8db;border-radius:12px;overflow:hidden}
+.group-summary .mini-track span{height:100%;display:block;background:#6D9066}
+#toastMsg{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 18px;background:#4B3529;color:#fff;border-radius:100px;font-weight:800;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:10;box-shadow:0 10px 25px #301e1530}
+#toastMsg.show{opacity:1}
+@media(max-width:900px){.controls{grid-template-columns:repeat(3,minmax(0,1fr))}.group-entrances{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:1fr 310px}}
+@media(max-width:700px){.hero{display:flex;flex-direction:column;align-items:stretch;gap:16px;min-height:0;padding:26px 17px 20px}.hero-art{min-height:185px}.art-scene{font-size:45px}.art-scene span:nth-child(2){font-size:70px}.hero p{font-size:14px}h1{font-size:33px}.wrap{padding:13px 12px 42px}.panel{padding:17px;margin:12px 0;border-radius:19px}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.items{grid-template-columns:1fr}.group-entrances{grid-template-columns:repeat(2,minmax(0,1fr))}.group-entry{min-height:137px}.tabs{flex-wrap:nowrap;overflow:auto;padding-bottom:8px;scrollbar-width:thin}.tab{flex-shrink:0;white-space:nowrap}.item .row{grid-template-columns:repeat(2,minmax(0,1fr))}.overview{padding:17px}.hero-actions button{flex:1}.section-heading{margin-top:20px}}
+@media(max-width:360px){.controls{grid-template-columns:1fr 1fr}.item .row{grid-template-columns:1fr}.group-entry{padding:12px}.hero-actions{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+</style></head><body><header><div class="hero"><div><div class="eyebrow">🍂 NEW 小組 × 敬傑小組　·　2026.10.31 SAT</div><h1>一起採買，<br><span class="accent">一起開烤！</span> 🍖</h1><p>BBQ Together｜暖心採買小隊<br>把秋日的好心情和美味，準備成一場溫馨的團契時光。<br>🕒 15:30 準備 · 17:30 開烤</p><div class="hero-actions"><button class="main" onclick="document.getElementById('groupSection').scrollIntoView({behavior:'smooth'})">🛒 開始採買</button><button class="secondary" onclick="document.getElementById('settingsSection').scrollIntoView({behavior:'smooth'})">👥 調整參加人數</button></div></div><div class="hero-art" aria-label="秋日庭院烤肉主題裝飾" role="img"><svg class="art-bulbs" viewBox="0 0 400 85" aria-hidden="true" preserveAspectRatio="none"><path d="M-10 0 Q190 100 410 -5"/><circle cx="40" cy="20" r="9"/><circle cx="106" cy="44" r="9"/><circle cx="180" cy="57" r="9"/><circle cx="250" cy="51" r="9"/><circle cx="320" cy="31" r="9"/><circle cx="383" cy="4" r="8"/></svg><div class="art-title">BBQ TOGETHER ♡</div><div class="art-scene"><span>🌽</span><span>🍢</span><span>🍖</span><span>🥬</span></div></div></div></header>
+<main class="wrap"><section class="overview" aria-label="整體採買進度"><div class="overview-top"><div><div class="eyebrow">🌿 我們一起完成</div><h2 style="margin:12px 0 0">採買進度總覽</h2></div><div class="big-num" id="progressText">0%</div></div><div class="track"><span id="progressFill" style="width:0%"></span></div><div class="legend" id="progressDetail">正在整理採買清單...</div></section><div class="section-heading"><div><h2>✨ 五組採買小隊</h2><p class="muted">選擇你的組別，快速查看今天要準備什麼。</p></div><span class="tag">團隊合作，少量多樣</span></div><div class="group-entrances" id="groupEntrances"></div><section class="panel" id="settingsSection"><h2>👥 參加人數與食量</h2><div class="controls"><div><label for="adults">大人人數</label><input id="adults" type="number" min="0" max="300" value="15"></div><div><label for="kids57">5～7 歲小孩</label><input id="kids57" type="number" min="0" max="300" value="6"></div><div><label for="kids811">8～11 歲小孩</label><input id="kids811" type="number" min="0" max="300" value="0"></div><div><label for="kids1216">12～16 歲小孩</label><input id="kids1216" type="number" min="0" max="300" value="2"></div><div><label for="appetite">整體食量</label><select id="appetite"><option value=".85">偏少（85%）</option><option value="1" selected>一般（100%）</option><option value="1.2">偏多（120%）</option></select></div></div><p class="muted">目前以 15 位大人、5～7 歲 6 人、8～11 歲 0 人、12～16 歲 2 人示範。兒童食量分別按成人的 40%、60%、90% 計；成人牛豬雞基準為 200g 去骨生肉／人（香腸和海鮮另外計算）。正式人數確定後請逐欄更新。建議由統籌統一確認菜單，避免各組各自加量。</p><div id="stats" class="grid"></div><div class="actions"><button class="main" id="share">複製 LINE 採買總表</button><button id="link">複製參數分享網址</button><button id="reset">恢復預設人數</button></div><div class="note">⚠️ 這是靜態計算器：分享連結只包含人數與食量設定；各組填入的認領人、實際金額及完成勾選僅儲存在自己的瀏覽器，不會同步給其他人。統一採買版本請用「複製 LINE 採買總表」。</div></section>
+<section class="panel" id="groupSection"><div class="group-head"><h2>🛒 小隊採買清單</h2><span class="tag">1 臺斤 = 600 g</span></div><div class="tabs" id="tabs"></div><div id="group"></div></section>
+<section class="panel" id="budgetSection"><h2>💰 費用與採買紀錄</h2><p class="muted">填入每項實際採買金額與認領人，以本機進行統計；公平分攤建議由統籌統一核銷，不要求各組購買相同金額。</p><div id="budget"></div><div class="actions"><button id="export">匯出本機採買紀錄 JSON</button><button id="clear">清除本機認領與金額</button></div></section><div id="toastMsg" role="status" aria-live="polite"></div><p class="foot">採買數量為台灣家庭式多品項烤肉的保守初估，實際請按去年剩食、年齡、飲食禁忌及食材規格修正。重量多為購買重量估算；帶骨肉、帶殼海鮮與水果可食率不同。既有設備需確認可用狀態；標記「免採買」的用品請由淳韻士方家或小組成員準備，不計入採買預算。© 小組聯合烤肉採買規劃</p></main>
 <script>
 const $=id=>document.getElementById(id), fmt=(v,n=1)=>Number(v.toFixed(n)).toLocaleString('zh-TW'), escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const groups=[['A','🥩 肉品組（2人）','牛、豬、雞切片為主，香腸另外計算。'],['B','🦐 海鮮蔬菜菇類組（3人）','花枝、魷魚可擇一；蔬菜與菇類少量多樣。'],['C','🍞 主食與其他組（2人）','主食種類多，份量請統籌避免重複。'],['D','🥤 點心飲料組（2人）','飲料成人 700 mL／人，兒童依食量比例換算；各款飲料可自行替換。'],['E','🍽️ 醬料與配件組（2人）','烤肉架列入設備確認、烤肉刷列入採買；標註「免採買」用品仍需確認現場是否有，或從家裡攜帶。']];
