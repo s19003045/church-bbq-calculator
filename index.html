@@ -65,9 +65,9 @@ const referencePrices={
 '香腸':[20,'piece','暫估'],
 '白蝦':[14,'piece','依全聯白蝦包裝價粗估；尺寸影響單價'],
 '其他海鮮（魚片、花枝、蛤蜊）':[300,'kg','混合海鮮暫估'],
-'杏鮑菇':[190,'kg','全聯 400g 約75元'],
-'香菇':[345,'kg','全聯 200g 約69元'],
-'玉米筍':[380,'kg','全聯 100g 約38元'],
+'杏鮑菇':[165,'kg','全聯杏鮑菇400g約65元'],
+'香菇':[325,'kg','全聯鮮香菇200g約65元'],
+'玉米筍':[290,'kg','全聯履歷玉米筍100g約29元'],
 '青椒與洋蔥':[170,'kg','混搭暫估'],
 '玉米':[25,'piece','暫估'],
 '吐司':[5,'piece','暫估'],
@@ -110,7 +110,7 @@ edit.appendChild(inp);const un=document.createElement('span');un.textContent='�
 });
 const totals=groups.map(g=>({label:g[1],sum:d.data.filter(x=>x[0]===g[0]).reduce((s,x)=>s+estimateItem(x).cost,0)}));
 const sum=totals.reduce((s,x)=>s+x.sum,0);
-const panel=document.createElement('section');panel.className='panel';panel.innerHTML='<h2>④ 台灣零售參考價估算</h2><p class="muted">查價日期：2026/10/23。參考全聯線上部分商品價格；無直接報價的品項以暫估值標示。單價可在各採買組品項中修改，修改值只保存在這台裝置。木炭、烤網等先按約1爐估算，請依實際爐數調整。</p><div class="grid">'+totals.map(g=>'<div class="stat"><span class="muted">'+g.label+'</span><b>NT$ '+g.sum.toLocaleString('zh-TW')+'</b></div>').join('')+'</div><div class="stat" style="margin-top:12px"><span class="muted">各組採買預估合計（非實際付款）</span><b>NT$ '+sum.toLocaleString('zh-TW')+'</b><span class="muted">約每位實際參加者 NT$ '+(d.e?Math.ceil(sum/d.e):0)+'；不含預留金</span></div><div class="actions"><button id="copyEstimate" class="main">複製各組預算至 LINE</button></div><p class="muted">參考來源：<a href="https://shop.pxgo.com.tw/hourArrive/activity/62" target="_blank" rel="noopener">全聯肉品及海鮮</a>、<a href="https://shop.pxgo.com.tw/hourArrive/activity/307" target="_blank" rel="noopener">全聯蔬菜副食</a>。促銷、包裝規格、供應地區與現場市場價可能不同。每項價格都僅供編列預算，採買前仍需向店家確認。</p>';
+const panel=document.createElement('section');panel.className='panel';panel.innerHTML='<h2>④ 台灣零售參考價估算</h2><p class="muted">查價日期：2026/10/23。參考全聯線上部分商品價格；無直接報價的品項以暫估值標示。單價可在各採買組品項中修改，修改值只保存在這台裝置。木炭、烤網等先按約1爐估算，請依實際爐數調整。</p><div class="grid">'+totals.map(g=>'<div class="stat"><span class="muted">'+g.label+'</span><b>NT$ '+g.sum.toLocaleString('zh-TW')+'</b></div>').join('')+'</div><div class="stat" style="margin-top:12px"><span class="muted">各組採買預估合計（非實際付款）</span><b>NT$ '+sum.toLocaleString('zh-TW')+'</b><span class="muted">約每位實際參加者 NT$ '+(d.e?Math.ceil(sum/d.e):0)+'；不含預留金</span></div><div class="actions"><button id="copyEstimate" class="main">複製各組預算至 LINE</button></div><p class="muted">參考來源：<a href="https://shop.pxgo.com.tw/hourArrive/activity/435" target="_blank" rel="noopener">全聯肉品及海鮮</a>、<a href="https://shop.pxgo.com.tw/hourArrive/activity/142" target="_blank" rel="noopener">全聯蔬菜副食</a>。促銷、包裝規格、供應地區與現場市場價可能不同。每項價格都僅供編列預算，採買前仍需向店家確認。</p>';
 const old=document.getElementById('estimatesPanel');if(old)old.remove();panel.id='estimatesPanel';$('budget').parentElement.after(panel);
 $('copyEstimate').onclick=()=>copy('🍖 聯合烤肉｜台灣參考採買預算（2026/10/23）\n人數：'+d.a+'大 '+d.k+'小\n'+totals.map(x=>x.label+' NT$ '+x.sum.toLocaleString('zh-TW')).join('\n')+'\n合計 NT$ '+sum.toLocaleString('zh-TW')+'\n僅供預算參考，實付以收據為準。');
 };
